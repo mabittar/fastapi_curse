@@ -10,9 +10,9 @@ router = APIRouter(tags=["home"],)
 
 @router.get('/')
 def index(request: Request):
-    return templates.TemplateResponse('index.html', {'request': request})
+    return templates.TemplateResponse('home/index.html', {'request': request})
 
 
 @router.get('/favicon.ico')
 def favicon():
-    return responses.RedirectResponse(url='cp_4/static/img/favicon.ico')
+    return responses.RedirectResponse(url='/static/img/favicon.ico')

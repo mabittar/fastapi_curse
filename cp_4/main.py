@@ -2,10 +2,15 @@ from fastapi import FastAPI
 from fastapi.staticfiles import StaticFiles
 from routers import router_list
 import uvicorn
+from env_configuration import Settings
 
 
 def configure():
     configure_routing()
+
+
+def get_settings():
+    return Settings()
 
 api = FastAPI(
     title="FastAPI Weather"

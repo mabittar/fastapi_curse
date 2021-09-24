@@ -2,3 +2,6 @@ fastapi
 uvicorn
 jinja2
 aiofiles
+sqlmodel
+python-dotenv
+requests
