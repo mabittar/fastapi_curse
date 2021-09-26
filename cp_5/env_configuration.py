@@ -10,6 +10,8 @@ class Settings(BaseSettings):
     project_name: str = Field(default="fastapi_starter", env="PROJECT_NAME")
     api_key: str = Field(default=None, env="API_KEY")
     openweather_timeout: int = Field(default=360, env="OPENWEATHER_TIMEOUT")
+    lifetime_in_hours: int = Field(
+        default=1.0, ge=0, le=24, env="LIFETIME_CACHE_HOURS")
 
     class Config:
         case_sensitive = True

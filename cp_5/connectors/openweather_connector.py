@@ -4,11 +4,11 @@ from fastapi import HTTPException
 
 
 class OpenWeatherConnector(BaseAsyncConnector):
-    def __init__(self, city, state, country, unit, lang):
+    def __init__(self, city, state, country, units, lang):
         self.city = city
         self.state = state
         self.country = country
-        self.unit = unit
+        self.units = units
         self.lang = lang
 
 
@@ -19,7 +19,7 @@ class OpenWeatherConnector(BaseAsyncConnector):
         else:
             q = f"{self.city},{self.country}"
         try: 
-            url = f"http://api.openweathermap.org/data/2.5/weather?q={q}&unit={self.unit}&lang={self.lang}&appid={api_key}"
+            url = f"http://api.openweathermap.org/data/2.5/weather?q={q}&units={self.units}&lang={self.lang}&appid={api_key}"
 
             resp = await self.request_async(
                 method="GET",
