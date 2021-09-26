@@ -1,5 +1,5 @@
 import requests
-
+import httpx
 
 class BaseConnector:
     def request(
@@ -49,3 +49,5 @@ class BaseConnector:
         else:
             raise Exception("Undefined request method")
         return resp
+
+    

@@ -5,3 +5,4 @@ aiofiles
 sqlmodel
 python-dotenv
 requests
+httpx
