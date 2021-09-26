@@ -8,9 +8,6 @@ class BaseConnector:
         method=None,
         headers=None,
         payload=None,
-        params=None,
-        url_encoded=None,
-        file=None,
         **kwargs
     ):
         if method == "GET":

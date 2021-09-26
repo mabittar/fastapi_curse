@@ -13,13 +13,15 @@ class OpenWeatherConnector(BaseConnector):
 
     def send(self):
         api_key = settings.api_key
-
-        q = {self.country, self.state, self.city}
+        if self.state is not None:
+            q = f"{self.city},{self.state},{self.country}"
+        else:
+            q = f"{self.city},{self.country}"
         try: 
             url = f"http://api.openweathermap.org/data/2.5/weather?q={q}&appid={api_key}&unit={self.unit}&lang={self.lang}"
 
             resp = self.request(
-                method="POST",
+                method="GET",
                 url=url
                 )
             return resp
