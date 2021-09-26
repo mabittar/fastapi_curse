@@ -1,5 +1,4 @@
 import requests
-import httpx
 
 class BaseConnector:
     def request(
@@ -9,7 +8,7 @@ class BaseConnector:
         headers=None,
         payload=None,
         **kwargs
-    ):
+    ) :
         if method == "GET":
             resp = requests.get(
                 url,

@@ -9,7 +9,7 @@ class BaseAsyncConnector:
         payload=None,
         timeout=None,
         **kwargs
-    ):
+    ) -> httpx.Response:
         async with httpx.AsyncClient() as client:
             if method == "GET":
                 resp = await client.get(
