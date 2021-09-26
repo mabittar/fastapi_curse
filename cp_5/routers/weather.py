@@ -1,3 +1,6 @@
+import fastapi
+from fastapi.exceptions import HTTPException
+from models.validation_error import ValidationError
 from typing import Optional
 from fastapi import APIRouter
 from models.locations_model import Location
@@ -14,12 +17,15 @@ async def weather(
     loc: Location = Depends(),
     units: Optional[str] = "metric"
     ) -> dict:
+    try:
+        return await LocationService.get_report_async(
+            city=loc.city,
+            state=loc.state,
+            country=loc.country,
+            units=units
+        )
+    except ValidationError as ve:
+        return fastapi.Response(content=ve.error_msg, status_code=ve.status_code)
 
-    report = await LocationService.get_report_async(
-        city=loc.city,
-        state=loc.state,
-        country=loc.country,
-        units=units
-    )
-
-    return report
+    except HTTPException as http_error:
+        return fastapi.Response(content=http_error.error_msg, status_code=http_error.status_code)

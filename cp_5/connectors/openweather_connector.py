@@ -1,6 +1,9 @@
+from models.validation_error import ValidationError
 from connectors.base_async_connector import BaseAsyncConnector
 from env_configuration import settings
 from fastapi import HTTPException
+from httpx import Response
+
 
 
 class OpenWeatherConnector(BaseAsyncConnector):
@@ -21,17 +24,19 @@ class OpenWeatherConnector(BaseAsyncConnector):
         try: 
             url = f"http://api.openweathermap.org/data/2.5/weather?q={q}&units={self.units}&lang={self.lang}&appid={api_key}"
 
-            resp = await self.request_async(
+            resp: Response = await self.request_async(
                 method="GET",
                 url=url,
                 timeout=settings.openweather_timeout
                 )
-            return resp
 
-            # async with httpx.AsyncClient() as client:
-            #     resp = await client.get(url)
-            #     resp.raise_for_status()
-            #     return resp
+            if resp.status_code != 200:
+                raise ValidationError(
+                    error_msg=resp.text,
+                    status_code=resp.status_code
+                )
+
+            return resp
 
         except HTTPException as e:
             return e
