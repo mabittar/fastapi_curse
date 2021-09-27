@@ -1,4 +1,4 @@
-from models import ValidationError
+from models.validation_error import ValidationError
 from connectors.openweather_connector import OpenWeatherConnector
 from typing import Optional
 from infrastructure import weather_cache

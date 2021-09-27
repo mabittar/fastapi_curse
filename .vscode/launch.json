@@ -5,6 +5,34 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "cp_6",
+      "type": "python",
+      "request": "launch",
+      "stopOnEntry": false,
+      "python": "${workspaceRoot}/.venv/bin/python",
+      "module": "uvicorn",
+      "args": [
+        "--reload",
+        "--host",
+        "127.0.0.1",
+        "--port",
+        "8000",
+        "--log-level",
+        "debug",
+        "main:api"
+      ],
+      "cwd": "${workspaceFolder}/cp_6",
+      "debugOptions": [
+        "WaitOnAbnormalExit",
+        "WaitOnNormalExit",
+        "RedirectOutput"
+      ],
+      "envFile": "${workspaceFolder}/cp_6/.env",
+      "preLaunchTask": "set_environment",
+      "postDebugTask": "killdebugger",
+      "jinja": true
+    },
+    {
       "name": "cp_5",
       "type": "python",
       "request": "launch",
@@ -27,7 +55,7 @@
         "WaitOnNormalExit",
         "RedirectOutput"
       ],
-      "envFile": "${workspaceFolder}/.env",
+      "envFile": "${workspaceFolder}/cp_5/.env",
       "preLaunchTask": "set_environment",
       "postDebugTask": "killdebugger",
       "jinja": true
@@ -55,7 +83,7 @@
         "WaitOnNormalExit",
         "RedirectOutput"
       ],
-      "envFile": "${workspaceFolder}/.env",
+      "envFile": "${workspaceFolder}/cp_4.env",
       "preLaunchTask": "set_environment",
       "postDebugTask": "killdebugger"
     }
