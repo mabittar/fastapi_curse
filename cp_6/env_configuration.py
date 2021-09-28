@@ -13,6 +13,9 @@ class Settings(BaseSettings):
     lifetime_in_hours: int = Field(
         default=1.0, ge=0, le=24, env="LIFETIME_CACHE_HOURS")
     database_file_name: str = Field(default="database.db", env="DB_FILE")
+    local_host: str = Field(default='http://127.0.0.1', env="LOCAL_HOST")
+    local_port: int = Field(default=8000, env="LOCAL_PORT")
+    url: str = f'{local_host}:{local_port}'
     class Config:
         case_sensitive = True
         env_file = '.env'
@@ -20,4 +23,4 @@ class Settings(BaseSettings):
 
 
 settings = Settings()
-print(f"starting: {settings.project_name}")
+print(f"starting: {settings.project_name} on {settings.url}")

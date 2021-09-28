@@ -1,8 +1,7 @@
-import fastapi
 from fastapi.exceptions import HTTPException
 from models.validation_error import ValidationError
 from typing import Optional
-from fastapi import APIRouter
+from fastapi import APIRouter, Response
 from models.locations_model import Location
 from fastapi import Depends
 from services.location_service import LocationService
@@ -25,7 +24,7 @@ async def weather(
             units=units
         )
     except ValidationError as ve:
-        return fastapi.Response(content=ve.error_msg, status_code=ve.status_code)
+        return Response(content=ve.error_msg, status_code=ve.status_code)
 
     except HTTPException as http_error:
-        return fastapi.Response(content=http_error.error_msg, status_code=http_error.status_code)
+        return Response(content=http_error.error_msg, status_code=http_error.status_code)
