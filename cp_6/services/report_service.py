@@ -1,32 +1,34 @@
 from datetime import datetime
 from typing import List
 from uuid import uuid4
-from models import Location
+
+from sqlmodel import select
 from models import Report
 
+class ReportService():
+    def __init__(self, session):
+        self.session = session
 
-__reports: List[Report] = []
+    def get_reports(self) -> List[Report]:
+        statement = select(Report)
+        results = self.session.exec(statement).all()
+        return results
 
-def get_reports() -> List[Report]:
-    
-    return list(__reports)
 
+    def add_report(self, data) -> Report:
+        now = datetime.now()
+        uuid = str(uuid4())
+        state = data.state if data.state is not None else None
+        report = Report(
+            city=data.city,
+            country=data.country,
+            state=state, 
+            description=data.description,
+            created_at=now,
+            uuid=uuid
+            )
 
-def add_report(description) -> Report:
-    now = datetime.now()
-    uuid = str(uuid4())
-    state = description.state if description.state is not None else None
-    id = len(__reports) + 1
-    report = Report(
-        city=description.city,
-        country=description.country,
-        state=state, 
-        description=description.description,
-        created_at=now,
-        uuid=uuid,
-        id=id,
-        )
-
-    __reports.append(report)
-    __reports.sort(key=lambda x: x.created_at, reverse=True)
-    return report
+        self.session.add(report)
+        self.session.commit()
+        self.session.refresh(report)
+        return report

@@ -1,7 +1,5 @@
-from typing import Optional, Union
-from uuid import UUID
+from typing import Optional
 from sqlmodel import Field, SQLModel
-from models import Location
 from datetime import datetime
 
 
@@ -17,6 +15,6 @@ class ReportPost(SQLModel):
 
 class Report(ReportPost, table=True):
     id: int = Field(default=None, primary_key=True)
-    uuid: str
+    uuid: str = Field(description="unique id for report")
     created_at: datetime = None
 
