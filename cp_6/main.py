@@ -9,6 +9,7 @@ from env_configuration import Settings
 
 
 def configure():
+    get_settings()
     create_db_and_tables()
     configure_routing()
 

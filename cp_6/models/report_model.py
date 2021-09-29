@@ -17,6 +17,6 @@ class ReportPost(SQLModel):
 
 class Report(ReportPost, table=True):
     id: int = Field(default=None, primary_key=True)
-    uuid: Union[int, str, UUID]
+    uuid: str
     created_at: datetime = None
 

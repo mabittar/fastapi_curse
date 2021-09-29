@@ -12,17 +12,19 @@ def get_reports() -> List[Report]:
     return list(__reports)
 
 
-def add_report(description: str, location: Location) -> Report:
-    now = datetime.datetime.now()
+def add_report(description) -> Report:
+    now = datetime.now()
     uuid = str(uuid4())
-    state = location.state if location.state is not None else None
+    state = description.state if description.state is not None else None
+    id = len(__reports) + 1
     report = Report(
-        city=location.city,
-        country=location.country,
+        city=description.city,
+        country=description.country,
         state=state, 
-        description=description, 
+        description=description.description,
         created_at=now,
         uuid=uuid,
+        id=id,
         )
 
     __reports.append(report)

@@ -1,29 +1,62 @@
-from ..env_configuration import Settings
+from typing import Optional
+
 import requests
 
+from .env_configuration import Settings
+
+
 def main():
-    Settings()
     choice = input("[R]eport weather or [s]ee reports? [exit] to quit!")
 
     while choice != "exit":
         if choice.lower().strip() == "r":
-            pass
+            post_report()
 
         elif choice.lower().strip() == "s":
-            pass
-        
+            get_report()
+
+        elif choice.lower() == "exit":
+            quit
+
         else:
             print(f"{choice} not implemented yet!")
             choice = input("\n[R]eport weather or [s]ee reports? [exit] to quit!")
 
 
 def post_report():
-    pass
+    desc = input("O que você gostaria de reportar?")
+    city = input("Em qual cidade está acontecendo?")
+    data = dict(
+        description=desc,
+        location=dict(
+            city=city,
+        )
+    )
+    resp = __connector(action="post", data=data)
+    resp.raise_for_status()
+    result = resp.json()
+    print(f"Novo evento reportado: {result.get('id')}")
 
 
 def get_report():
+    resp = __connector(action='get')
+    resp.raise_for_status()
+
+    data = resp.json()
+    for r in data:
+        print(f"{r.get('location').get('city')} has {r.get('description')}")
+
+
+def __connector(action: str, data: Optional[dict] = None):
     url = Settings.url
     endpoint = '/api/reports'
     url = {url} + endpoint
-    resp = requests.get(url)
-    resp.raise_for_status()
+    if action == "post":
+        return requests.post(url, json=data)
+    elif action == "get":
+        return requests.get(url)
+
+
+if __name__ == '__main__':
+    Settings()
+    main()

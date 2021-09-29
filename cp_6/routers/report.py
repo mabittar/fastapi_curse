@@ -11,15 +11,13 @@ router = APIRouter(
 
 @router.get('/api/reports', name="all reports")
 async def reports_get() -> List[Report]:
-    return await report_service.get_reports()
+    return report_service.get_reports()
 
 
-@router.get(
+@router.post(
     '/api/reports', 
     name="all reports",
     status_code=201,
     )
-async def reports_post(report: ReportPost, location: Location) -> Report:
-    d = report.description
-    loc = location
-    return await report_service.add_report(d, loc)
+async def reports_post(report: ReportPost) -> Report:
+    return report_service.add_report(report)
