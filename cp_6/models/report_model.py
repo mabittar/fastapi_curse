@@ -18,3 +18,6 @@ class Report(ReportPost, table=True):
     uuid: str = Field(description="unique id for report")
     created_at: datetime = None
 
+
+class ReportRead(Report):
+    pass
