@@ -23,19 +23,17 @@ class ReportService():
         self, 
         id: Optional[int] = None,
         city: Optional[str] = None,
-        page: Optional[int] = 0,
-        page_size: Optional[int] = 10,
         first_result: Optional[bool] = False,
     ):
 
         if id is not None:
-            statement = select(Report).offset(page).limit(page_size)
-            results = self.session.exec(statement)
+            results = self.session.exec(select(Report))
             results = self.session.get(Report, id)
 
         if city is not None:
-            results = self.session.exec(select(Report))
-            results = self.session.get(Report, city).first() if first_result else self.session.get(Report, id).all()
+            statement = select(Report).where(Report.city == city)
+            results = self.session.exec(statement)
+            results = results.first() if first_result else results.all()
 
         return results
 
