@@ -3,7 +3,7 @@ from typing import List, Optional
 from uuid import uuid4
 from infrastructure.database import get_session
 
-from sqlmodel import Session, select
+from sqlmodel import select
 from models import Report
 
 class ReportService():
@@ -34,8 +34,7 @@ class ReportService():
             results = self.session.get(Report, id)
 
         if city is not None:
-            statement = select(Report).offset(page).limit(page_size)
-            results = self.session.exec(statement)
+            results = self.session.exec(select(Report))
             results = self.session.get(Report, city).first() if first_result else self.session.get(Report, id).all()
 
         return results

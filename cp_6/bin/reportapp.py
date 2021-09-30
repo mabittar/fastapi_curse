@@ -2,7 +2,7 @@ from typing import Optional
 
 import requests
 
-from .env_configuration import Settings
+from cp_6.env_configuration import settings
 
 
 def main():
@@ -48,7 +48,7 @@ def get_report():
 
 
 def __connector(action: str, data: Optional[dict] = None):
-    url = Settings.url
+    url = settings.url
     endpoint = '/api/reports'
     url = {url} + endpoint
     if action == "post":
@@ -58,5 +58,4 @@ def __connector(action: str, data: Optional[dict] = None):
 
 
 if __name__ == '__main__':
-    Settings()
     main()
