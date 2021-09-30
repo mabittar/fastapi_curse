@@ -16,18 +16,27 @@ class ReportService():
         page_size: Optional[int] = 10
         ) -> List[Report]:
         statement = select(Report).offset(page).limit(page_size)
-        results = self.session.exec(select(Report).offset(page).limit(page_size)).all()
+        results = self.session.exec(statement).all()
         return results
 
     async def get_report(
         self, 
-        id: Optional[id] = None,
+        id: Optional[int] = None,
         city: Optional[str] = None,
         page: Optional[int] = 0,
         page_size: Optional[int] = 10,
         first_result: Optional[bool] = False,
     ):
-        results = self.session.get(Report, id)
+
+        if id is not None:
+            statement = select(Report).offset(page).limit(page_size)
+            results = self.session.exec(statement)
+            results = self.session.get(Report, id)
+
+        if city is not None:
+            statement = select(Report).offset(page).limit(page_size)
+            results = self.session.exec(statement)
+            results = self.session.get(Report, city).first() if first_result else self.session.get(Report, id).all()
 
         return results
 

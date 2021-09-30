@@ -2,8 +2,6 @@ from sqlmodel import create_engine, SQLModel, Session
 from env_configuration import settings
 import os
 
-path = os.getcwd()
-
 sql_file = f"{settings.path}/{str(settings.database_file_name)}"
 
 connect_args = {"check_same_thread": False}

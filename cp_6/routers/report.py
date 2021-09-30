@@ -27,19 +27,47 @@ async def reports_get(
 
 
 @router.get(
-    '/api/reports/{report_id}', 
-    name="search report for id or city",
+    '/api/reports/{report_id}',
+    name="get report by ID",
     response_model=Report
-    )
+)
 async def report_search(
     *,
     session: Session = Depends(get_session),
-    report_id: int
-    ):
+    report_id: int = Query(default=1, ge=1, description='Report ID'),
+):
     report_service = ReportService(session)
     report = await report_service.get_report(
-        id = report_id
-        )
+        id=report_id
+    )
+    if not report:
+        raise HTTPException(status_code=404, detail="Report not found")
+    return report
+
+
+@router.get(
+    '/api/reports/{city}',
+    name="get reports by city",
+    response_model=ReportRead
+)
+async def report_search(
+    *,
+    session: Session = Depends(get_session),
+    city: str = Query(default=None, description='Get all reports from city'),
+    first_result: bool = Query(default=True, description='First result or all results'),
+    page: Optional[int] = Query(default=0, ge=0),
+    page_size: Optional[int] = Query(default=10, lte=100)
+):
+
+    if not city:
+        raise HTTPException(status_code=404, detail="City cant be None")
+    report_service = ReportService(session)
+    report = await report_service.get_report(
+        city=city,
+        first_result=first_result,
+        page=page,
+        page_size=page_size
+    )
     if not report:
         raise HTTPException(status_code=404, detail="Report not found")
     return report
